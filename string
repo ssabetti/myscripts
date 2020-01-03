@@ -1,0 +1,11 @@
+#!/bin/bash
+
+VAR1=`/from/bloodborne/simon`
+
+
+if [[ $VAR1 == *"secrets"* ]]
+then 
+	echo $VAR1
+else
+	echo "false"
+fi

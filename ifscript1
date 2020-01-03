@@ -1,0 +1,11 @@
+#!/bin/bash
+
+INPUT=$1
+
+if [ -e ${INPUT} ]
+then
+	echo "true"
+else
+	echo "false"
+
+fi

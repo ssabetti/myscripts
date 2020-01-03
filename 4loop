@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for n in `ps -ef | awk '{print $2}'`
+do
+	echo "I love Linux ${n}"
+done

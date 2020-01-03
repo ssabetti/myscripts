@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for FILE in `ls -1 files/`
+do 
+	chown ssabetti:ssabetti /from/sscripts/files/$FILE
+done

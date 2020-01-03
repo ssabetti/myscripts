@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo_function(){
+	echo ""
+	echo "SCRIPT ${SCRIPT}"
+	echo ""
+	$SCRIPT
+}
+
+NUM=$1
+
+RED=`/from/bloodborne/simon | wc -c`
+
+if [ $RED -gt $NUM ]
+then
+	SCRIPT="/from/bloodborne/Eileen"
+	echo_function
+
+
+elif [ $RED -eq $NUM ]
+then
+	SCRIPT="/from/bloodborne/Micolash"
+	echo_function
+
+elif [ $RED -lt $NUM ]
+then
+	SCRIPT="/from/bloodborne/ludwig"
+	echo_function
+fi

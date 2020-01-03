@@ -1,0 +1,49 @@
+#!/bin/bash
+
+for VM in dish comcast
+do
+	echo "Installing $VM"
+        virt-install -n ${VM} -r 3072 --disk \
+	path=/var/lib/libvirt/images/${VM}.img,size=10 \
+        -l ftp://192.168.122.1/pub/inst \
+	-x ks=ftp://192.168.122.1/pub/${VM}.cfg & 
+done
+
+sleep 30
+
+DISH_IP=`virsh domifaddr dish | grep 192 | awk '{print $4}' | sed 's/\/24//'`
+COMCAST_IP=`virsh domifaddr comcast | grep 192 | awk '{print $4}' | sed 's/\/24//'`
+
+
+nc -n -z $COMCAST_IP 22
+NC_COMCAST=$?
+
+nc -n -z $DISH_IP 22
+NC_DISH=$?
+
+while [ $NC_COMCAST != 0 ] && [ NC_DISH != 0 ]
+do
+	
+	sleep 20
+	echo "Checking if Comcast is Running"
+	nc -n -z $COMCAST_IP 22
+	NC_COMCAST=$?
+
+	echo "Checking if Dish is Running"
+	nc -n -z $DISH_IP 22
+	NC_DISH=$?
+
+done
+
+echo "DISH IS RUNNING AND IS AT IP $DISH_IP"
+echo "COMCAST IS RUNNING AND IS AT IP $COMCAST_IP"
+
+echo "Sleeping before delete"
+sleep 60
+
+echo "Undefining & Destroying Comcast"
+virsh undefine comcast && virsh destroy comcast
+echo "Undefining & Destroying Comcast Dish"
+virsh undefine dish && virsh destroy dish
+echo "Deleting Disks"
+rm -rf /var/lib/libvirt/images/*
