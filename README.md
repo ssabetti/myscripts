@@ -1,0 +1,2 @@
+# myscripts
+collection of scripts
