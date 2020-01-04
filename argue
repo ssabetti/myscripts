@@ -3,5 +3,5 @@
 echo $#
 if [ $# -lt 2 ]
 then 
-	echo "error motherfucker!"
+	echo "error! error Will Robinson!"
 fi
